@@ -28,16 +28,13 @@ let validar_url = url =>{
  * Guardar la información de la URL en base de datos
  * @param {*} url
  */
-let guardar_url = async (url) =>{
-  throw{
-    ok:false,
-    mensaje:"pasó por guardar"};
+let guardar_url = async (marcadores) =>{
 
-      let servicio = new ServicioPG()
+        let _servicio = new ServicioPG()
       let sql = `INSERT INTO public.marcadores(
-            url, nombre, descripcion)
-            VALUES (${url.url}, ${url.nombre}, ${url.descripcion});`;
-      let respuesta = await servicio.ejecutarSql(sql);
+            marcadores.url, marcadores.nombre, marcadores.descripcion)
+            VALUES (${marcadores.url}, ${marcadores.nombre}, ${marcadores.descripcion});`;
+      let respuesta = await _servicio.ejecutarSql(sql);
       return respuesta;
 }
 
@@ -45,10 +42,10 @@ let guardar_url = async (url) =>{
  * Consultar las URLs guardadas en la base de datos
  */
 let consultar_urls = async () => {
-  let servicio = new ServicioPg();
+  let _servicio = new ServicioPg();
   let sql = `SELECT id, url, nombre, descripcion
               FROM public.marcadores;`;
-  let respuesta = await servicio.ejecutarSql(sql);
+  let respuesta = await _servicio.ejecutarSql(sql);
   return respuesta;
 };
 
@@ -57,10 +54,10 @@ let consultar_urls = async () => {
  * @param {*} id
  */
 let eliminar_url = async (id) => {
-  let servicio = new ServicioPg();
+  let _servicio = new ServicioPg();
   let sql = `DELETE FROM public.marcadores WHERE id=${id};
 `;
-  let respuesta = await servicio.ejecutarSql(sql);
+  let respuesta = await _servicio.ejecutarSql(sql);
   return respuesta;
 };
 
@@ -74,11 +71,11 @@ let modificar_url = async (url, id) => {
       mensaje: "El id de la URL no correspende al enviado.",
     };
   }
-  let servicio = new ServicioPg();
+  let _servicio = new ServicioPg();
   let sql = `UPDATE public.marcadores
             SET id=${url.id}, url=${url.url}, nombre=${url.nombre}, descripcion=${url.descripcion}
             WHERE id=${url.id};`;
-  let respuesta = await servicio.ejecutarSql(sql);
+  let respuesta = await _servicio.ejecutarSql(sql);
   return respuesta;
 };
 
